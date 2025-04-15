@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>❤️</text></svg>">
+    <title>Ameen's Birthday Celebration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Share+Tech+Mono&family=Lateef&display=swap');
+
+        :root {
+            --islamic-green: #0d5c36;
+            --islamic-green-light: #147a49;
+            --neon-accent: #39ff14;
+            --dark-bg: #121212;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .binary-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(13, 92, 54, 0.2), rgba(18, 18, 18, 0.98));
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .binary-text {
+            position: absolute;
+            color: rgba(57, 255, 20, 0.05);
+            font-size: 14px;
+            white-space: nowrap;
+            user-select: none;
+            text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
+        }
+
+        .circuit {
+            position: absolute;
+            background: rgba(57, 255, 20, 0.05);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 1.5rem;
+            position: relative;
+            width: 100%;
+        }
+
+        .arabic-title {
+            font-family: 'Lateef', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+            color: white;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.7);
+        }
+
+        .tech-subtitle {
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            letter-spacing: 2px;
+            color: var(--neon-accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .dua {
+            font-family: 'Amiri', serif;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            margin: 0.5rem 0;
+            color: #fff;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background: rgba(13, 92, 54, 0.3);
+            border-left: 4px solid var(--islamic-green);
+            max-width: 95%;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .countdown-section {
+            margin: 1rem 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(13, 92, 54, 0.7);
+            border-radius: 8px;
+            width: clamp(70px, 20vw, 100px);
+            position: relative;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+            overflow: hidden;
+        }
+
+        .countdown-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(57, 255, 20, 0.1), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .countdown-value {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 5px var(--neon-accent);
+            z-index: 2;
+        }
+
+        .countdown-label {
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+            color: #ccc;
+            z-index: 2;
+        }
+
+        .photo-container {
+            width: min(80vw, 350px);
+            height: min(80vw, 350px);
+            margin: 1.5rem auto;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0);
+            transition: transform 1s ease-out;
+            box-shadow: 0 0 20px rgba(13, 92, 54, 0.5);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(13, 92, 54, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 5rem;
+            object-fit: cover;
+        }
+
+        .terminal-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem auto;
+            font-family: 'Share Tech Mono', monospace;
+            border: 1px solid var(--neon-accent);
+            text-align: left;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(57, 255, 20, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 5px;
+            margin-right: 0.75rem;
+        }
+
+        .terminal-button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .button-red {
+            background-color: #ff5f56;
+        }
+
+        .button-yellow {
+            background-color: #ffbd2e;
+        }
+
+        .button-green {
+            background-color: #27c93f;
+        }
+
+        .terminal-title {
+            color: var(--neon-accent);
+            flex-grow: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .terminal-content {
+            color: var(--neon-accent);
+            line-height: 1.4;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+        }
+
+        .terminal-line {
+            display: block;
+            margin-bottom: 0.4rem;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end);
+        }
+
+        .terminal-prompt {
+            color: #fff;
+            margin-right: 6px;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--neon-accent);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .message-container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(13, 92, 54, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+            position: relative;
+        }
+
+        .revealed .message-container,
+        .revealed .terminal-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .revealed .photo-container {
+            transform: scale(1);
+        }
+
+        .message-title {
+            font-family: 'Amiri', serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 0.75rem;
+            color: var(--neon-accent);
+        }
+
+        .message-content {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .message-footer {
+            position: relative;
+            right: auto;
+            bottom: auto;
+            text-align: right;
+            margin-top: 1rem;
+            padding-right: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .message-footer {
+                position: absolute;
+                right: 40px;
+                bottom: 24px;
+            }
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            margin: 0 0.3rem;
+            color: var(--neon-accent);
+        }
+
+        #birthday-reveal {
+            width: 100%;
+        }
+
+        @keyframes confetti {
+            0% {
+                transform: translateY(0) rotate(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--neon-accent);
+            opacity: 0;
+            z-index: 10;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .countdown-box {
+                width: 70px;
+                padding: 0.5rem;
+            }
+
+            .countdown-value {
+                font-size: 1.8rem;
+            }
+
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+
+            .terminal-container,
+            .message-container {
+                padding: 0.75rem;
+            }
+
+            .terminal-content {
+                font-size: 0.75rem;
+            }
+
+            .message-content {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="binary-background" id="binary-bg"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="arabic-title">عيد ميلاد سعيد يا أمين</h1>
+            <p class="tech-subtitle">// celebrating [ Ameen's_Birthday ] //</p>
+            <div class="dua">اللهم بارك له في عمره وارزقه الخير والهداية والبركة</div>
+        </div>
+
+        <div class="countdown-section" id="countdown-section">
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <span id="days" class="countdown-value">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-box">
+                    <span id="hours" class="countdown-value">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-box">
+                    <span id="minutes" class="countdown-value">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-box">
+                    <span id="seconds" class="countdown-value">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="birthday-reveal" style="display: none;">
+            <div class="photo-container">
+                <div class="photo-placeholder">
+                    <img src="./happy-birthday.png" class="photo-placeholder">
+                </div>
+            </div>
+
+            <div class="terminal-container">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <div class="terminal-button button-red"></div>
+                        <div class="terminal-button button-yellow"></div>
+                        <div class="terminal-button button-green"></div>
+                    </div>
+                    <div class="terminal-title">ameen-birthday-wish.sh</div>
+                </div>
+                <div class="terminal-content" id="terminal-content">
+                    <div class="terminal-line"><span class="terminal-prompt">$</span> ./birthday-wish.sh
+                        --recipient="Ameen"</div>
+                    <div class="terminal-line"><span class="terminal-prompt">></span> Initializing birthday protocol...
+                    </div>
+                    <div class="terminal-line"><span class="terminal-prompt">></span> Loading Islamic blessings
+                        module...</div>
+                    <div class="terminal-line"><span class="terminal-prompt">></span> Generating personalized message...
+                    </div>
+                    <div class="terminal-line"><span class="terminal-prompt">></span> SUCCESS! Message compiled
+                        successfully.</div>
+                    <div class="terminal-line"><span class="terminal-prompt">></span> OUTPUT:</div>
+                    <div class="terminal-line"><span class="terminal-prompt"></span></div>
+                    <div class="terminal-line"><span class="terminal-prompt">#</span> بِسْمِ اللَّهِ الرَّحْمَنِ
+                        الرَّحِيم</div>
+                    <div class="terminal-line"><span class="terminal-prompt">#</span> May Allah (SWT) level up your
+                        imaan and grant you experience points in knowledge!</div>
+                    <div class="terminal-line"><span class="terminal-prompt">#</span> Achievement Unlocked: New Birthday
+                        Year!</div>
+                    <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="cursor"></span></div>
+                </div>
+            </div>
+
+            <div class="message-container">
+                <h2 class="message-title">Allahumma Barik, Ameen! 💕</h2>
+                <p class="message-content">
+                    May Allah bless you with barakah in your age and grant you a year filled with achievements unlocked
+                    and new levels mastered - both in deen and dunya! May Allah guide you through life's challenges with
+                    wisdom and taqwa.
+                    <br><br>
+                    May your Allah continue to increase you in knowledge, skill, and imaan.
+                </p>
+                <p class="message-footer">- With ❤️ Yaseen</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create binary background effect
+        const binaryBg = document.getElementById('binary-bg');
+
+        function createBinaryBackground() {
+            // Clear existing content
+            binaryBg.innerHTML = '';
+
+            // Create binary text elements
+            for (let i = 0; i < 20; i++) {
+                const binaryText = document.createElement('div');
+                binaryText.className = 'binary-text';
+                binaryText.style.left = `${Math.random() * 100}%`;
+                binaryText.style.top = `${Math.random() * 100}%`;
+                binaryText.style.opacity = Math.random() * 0.5 + 0.1;
+
+                let text = '';
+                for (let j = 0; j < 100; j++) {
+                    text += Math.round(Math.random());
+                }
+                binaryText.textContent = text;
+
+                binaryBg.appendChild(binaryText);
+            }
+
+            // Create circuit lines
+            for (let i = 0; i < 15; i++) {
+                const circuit = document.createElement('div');
+                circuit.className = 'circuit';
+
+                const isHorizontal = Math.random() > 0.5;
+                if (isHorizontal) {
+                    circuit.style.height = '1px';
+                    circuit.style.width = `${Math.random() * 200 + 50}px`;
+                    circuit.style.top = `${Math.random() * 100}%`;
+                    circuit.style.left = `${Math.random() * 100}%`;
+                } else {
+                    circuit.style.width = '1px';
+                    circuit.style.height = `${Math.random() * 200 + 50}px`;
+                    circuit.style.left = `${Math.random() * 100}%`;
+                    circuit.style.top = `${Math.random() * 100}%`;
+                }
+
+                binaryBg.appendChild(circuit);
+            }
+        }
+
+        // Initialize binary background
+        createBinaryBackground();
+
+        // Recreate binary background every 20 seconds
+        setInterval(createBinaryBackground, 20000);
+
+        // Set birthday date - for demo purposes, set it to 15 seconds from now
+        const now = new Date();
+        // For debugging/demo - countdown to 15 seconds from now
+        let targetDate = new Date(now.getTime() + 2000);
+
+        // Uncomment and set this to the actual birthday
+        // const targetDate = new Date('April 28, 2025 00:00:00');
+
+        function updateCountdown() {
+            const currentTime = new Date();
+            const difference = targetDate - currentTime;
+
+            if (difference <= 0) {
+                // It's birthday time!
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+
+                // Automatically reveal the birthday message
+                setTimeout(() => {
+                    revealBirthdayMessage();
+                }, 1000);
+
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Initial update
+        updateCountdown();
+
+        // Update countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        function animateTerminalText() {
+            const terminalLines = document.querySelectorAll('.terminal-line');
+
+            terminalLines.forEach((line, index) => {
+                line.style.display = 'none';
+                setTimeout(() => {
+                    line.style.display = 'block';
+                    line.style.animation = 'typing 2s steps(40, end)';
+                }, index * 800);
+            });
+        }
+
+        function createConfetti() {
+            const confettiCount = 100;
+            const container = document.querySelector('.container');
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+
+                // Randomize confetti properties
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = '-10px';
+                confetti.style.backgroundColor = i % 3 === 0 ? '#39ff14' :
+                    i % 3 === 1 ? '#ffffff' : '#0d5c36';
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = `${Math.random() * 10 + 5}px`;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+
+                // Animate confetti
+                confetti.style.animation = `confetti ${Math.random() * 3 + 2}s linear forwards`;
+
+                container.appendChild(confetti);
+
+                // Remove confetti after animation completes
+                setTimeout(() => {
+                    container.removeChild(confetti);
+                }, 5000);
+            }
+        }
+
+        function revealBirthdayMessage() {
+            document.getElementById('countdown-section').style.display = 'none';
+            document.getElementById('birthday-reveal').style.display = 'block';
+            document.getElementById('birthday-reveal').classList.add('revealed');
+
+            // Create confetti effect
+            createConfetti();
+
+            // Animate elements
+            setTimeout(() => {
+                document.querySelector('.photo-container').style.transform = 'scale(1)';
+            }, 500);
+
+            setTimeout(() => {
+                document.querySelector('.terminal-container').style.opacity = '1';
+                document.querySelector('.terminal-container').style.transform = 'translateY(0)';
+                animateTerminalText();
+            }, 1500);
+
+            setTimeout(() => {
+                document.querySelector('.message-container').style.opacity = '1';
+                document.querySelector('.message-container').style.transform = 'translateY(0)';
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
